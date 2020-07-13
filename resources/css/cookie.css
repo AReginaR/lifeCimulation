@@ -1,0 +1,18 @@
+.col-10{
+    background: url("https://klike.net/uploads/posts/2019-11/1572781281_6.jpg");
+}
+.btn {
+    font-family: 'Montserrat', Arial, sans-serif;
+    font-weight:700;
+    text-transform:uppercase;
+}
+/*.btn-primary {*/
+/*    color: #483f34;*/
+/*    background-color: #ffc55f;*/
+/*    border-color: #e7ad47;*/
+/*}*/
+/*.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open>.dropdown-toggle.btn-primary {*/
+/*    color: #483f34;*/
+/*    background-color: #fdbf51;*/
+/*    border-color: #e7ad47;*/
+/*}*/
