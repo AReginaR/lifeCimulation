@@ -1,13 +1,27 @@
-
-function start() {
+let xo_count = 0;
+let cookie_count = getCookie();
+function start(num) {
     let start = document.getElementById('start');
     start.remove();
     let sec = document.getElementById('section');
     sec.innerHTML = '';
-    let p = document.getElementById('puzzle');
-    p.style.display = 'none';
+    // let p = document.getElementById('puzzle');
+    // p.style.display = 'none';
     startAudio();
-    born();
+    switch (num) {
+        case 0:
+            born();
+            break;
+        case 1:
+            quiz_test();
+            break;
+        case 2:
+            univer();
+            break;
+        case 3:
+            game();
+            break;
+    }
 }
 
 let audioMain = new Audio('resources/audio/music.mp3');
@@ -35,28 +49,43 @@ function kindergarten() {
 function puzzle() {
     let sec = document.getElementById('section');
     sec.innerHTML = '';
-    let div = document.getElementById('puzzle');
-    div.style.marginTop = '5px';
-    div.style.display = 'block';
-    let btn = document.getElementById('puzz');
+    let s = document.createElement('script');
+    s.src = 'resources/js/jquery.js';
+    let script = document.createElement('script');
+    script.src = "resources/js/jquery.jqpuzzle.js";
+    sec.append(s);
+    sec.append(script);
+    let p = document.createElement('img');
+    p.id = "p";
+    p.src = "resources/images/kometa.png";
+    p.classList.add("jqPuzzle");
+    p.classList.add("jqp-r4-c4-SN");
+    document.body.append(p);
+    let btn = document.createElement('button');
+    btn.id = 'puzz';
+    btn.classList.add("btn2");
+    btn.style.display = "none";
+    btn.innerText = 'Далее';
     btn.onclick = school;
-
+    sec.append(btn);
 }
 
 function school(){
+    let p = document.getElementById('p');
+    p.remove();
     let sec = document.getElementById('section');
     sec.innerHTML = '';
-    let puzzle = document.getElementById('puzzle');
-    puzzle.remove();
+    // let puzzle = document.getElementById('puzzle');
+    // puzzle.remove();
     let img = '<img src="resources/images/school.png">'; //todo
-    let btn = '<button class="btn" onclick="quiz()"><h3><b>Далее</b></h3></button>';
+    let btn = '<button class="btn" onclick="quiz_test()"><h3><b>Далее</b></h3></button>';
     sec.innerHTML += img + btn;
+    saveLocation(1);
 }
 
-function quiz() {
+function quiz_test() {
     let sec = document.getElementById('section');
     sec.innerHTML = '';
-    // let div = '<iframe src="quiz.php" style="margin-left: 35%" width="30%" height="600px" class="quiz-frame"></iframe>';
     let div = '<div class="wrapper">\n' +
         '    <main class="main">\n' +
         '        <div class="quiz__head">\n' +
@@ -74,28 +103,20 @@ function quiz() {
         '    </main>\n' +
         '</div>';
     sec.innerHTML += div;
-    test();
-   // let iframe = document.getElementsByTagName('iframe')[0];
-
-    // iframe.onload = function () {
-    //     let iframeDoc = iframe.contentWindow.document;
-    //     if (document.getElementById("pages").innerText === 'Очки: 10'){
-    //         let btn = '<button class="btn2" onclick="univer()"><h3><b>Далее</b></h3></button>';
-    //         sec.innerHTML += btn;
-    //     }
-    // }
-
+    test(1, 1);
 }
 
 function univer() {
     let sec = document.getElementById('section');
     sec.innerHTML = '';
+    saveLocation(2);
     let img = '<img src="resources/images/univer.png">'; //todo
     let btn = '<button class="btn" onclick="xo()"><h3><b>Далее</b></h3></button>';
     sec.innerHTML += img + btn;
 }
 
 function xo(){
+    xo_count++;
     let sec = document.getElementById('section');
     sec.innerHTML = '';
     let div = '<div class="krestiki_noliki">\n' +
@@ -119,6 +140,7 @@ function xo(){
     document.body.append(btn3);
 
     btn3.onclick = function (){
+        xo_count++;
         sec.innerHTML = div;
         // sec.append(btn3);
         start_xo();
@@ -143,20 +165,25 @@ function game() {
     let btn2 =document.createElement('button');
     let btn3 =document.createElement('button');
     let btn4 = document.createElement('button');
+    let btn5 = document.createElement('button');
 
     btn4.classList.add('button1');
     btn3.classList.add('button1');
     btn2.classList.add('button1');
     btn1.classList.add('button1');
+    btn5.classList.add('button1');
 
     btn1.innerText = 'Повар';    //cookie
     btn2.innerText = 'Строитель';
-    btn3.innerText = 'Летчик';
+    btn3.innerText = 'Военный';
     btn4.innerText = 'Садовод';  //dino
+    btn5.innerText = 'Достижения';
 
     btn1.onclick = cooker;
-
+    btn2.onclick = kamenschik;
+    btn3.onclick = pilot;
     btn4.onclick = gardener;
+    btn5.onclick;
 
     sec.append(btn1);
     sec.append(btn2);
@@ -172,36 +199,42 @@ function cooker() {
     btn.classList.add('button1');
     btn.onclick = cookie;
     btn.innerText = 'Пешенька кликер';
+    let btn3 = document.createElement('button');
+    btn3.classList.add('button1');
+    btn3.onclick = cooker_school;
+    btn3.innerText = 'Школа поваров Гордона Рамзи';
     let btn2 = document.createElement('button');
     btn2.classList.add('btn2');
     btn2.innerText = 'Назад';
     btn2.onclick = game;
     sec.append(btn);
-    sec.append(btn2)
+    sec.append(btn3);
+    sec.append(btn2);
+
 }
 
-function gardener() {
+function cooker_school() {
     let sec = document.getElementById('section');
     sec.innerHTML = '';
-    let btn = document.createElement('button');
-    btn.classList.add('button1');
-    btn.onclick = dino;
-    btn.innerText = 'Прыгатель';
-    let btn2 = document.createElement('button');
-    btn2.classList.add('btn2');
-    btn2.innerText = 'Назад';
-    btn2.onclick = game;
-    sec.append(btn);
-    sec.append(btn2)
-}
-
-function dino() {
-    let sec = document.getElementById('section');
-    sec.innerHTML = '';
-    let game = '  <canvas id="game" width="640" height="400"></canvas>';
-    let btn = '<button class="btn2" onclick="gardener()" >Назад</button>';
-    sec.innerHTML += game + btn;
-    dino_game()
+    let div = '<div class="wrapper">\n' +
+        '    <main class="main">\n' +
+        '        <div class="quiz__head">\n' +
+        '            <div class="head__content" id="head"></div>\n' +
+        '        </div>\n' +
+        '        <div class="quiz__body">\n' +
+        '            <div class="buttons">\n' +
+        '                <div class="buttons__content" id="buttons">\n' +
+        '                </div>\n' +
+        '            </div>\n' +
+        '            <div class="quiz__footer">\n' +
+        '                <div class="footer__content" id="pages">0 / 10</div>\n' +
+        '            </div>\n' +
+        '        </div>\n' +
+        '    </main>\n' +
+        '</div>';
+    let btn = '<button class="btn2" onclick="cooker()" >Назад</button>';
+    sec.innerHTML += div + btn;
+    test(2, 1);
 }
 
 function cookie() {
@@ -225,11 +258,120 @@ function cookie() {
     octopus.init();
 }
 
+function gardener() {
+    let sec = document.getElementById('section');
+    sec.innerHTML = '';
+    let btn = document.createElement('button');
+    btn.classList.add('button1');
+    btn.onclick = dino;
+    btn.innerText = 'Джамп';
+    let btn3 = document.createElement('button');
+    btn3.classList.add('button1');
+    btn3.onclick = gallows;
+    btn3.innerText = 'Виселица';
+    let btn2 = document.createElement('button');
+    btn2.classList.add('btn2');
+    btn2.innerText = 'Назад';
+    btn2.onclick = game;
+    sec.append(btn);
+    sec.append(btn3);
+    sec.append(btn2)
+}
+
+function dino() {
+    let sec = document.getElementById('section');
+    sec.innerHTML = '';
+    let game = '<canvas id="game" width="640" height="300"></canvas>';
+    let btn = '<button class="btn2" onclick="gardener()" >Назад</button>';
+    sec.innerHTML += game + btn;
+    dino_game()
+}
+
+function pilot() {
+    let sec = document.getElementById('section');
+    sec.innerHTML = '';
+    let btn = document.createElement('button');
+    btn.classList.add('button1');
+    btn.onclick = battle;
+    btn.innerText = 'Морской бой';
+    let btn2 = document.createElement('button');
+    btn2.classList.add('button1');
+    btn2.onclick = air;
+    btn2.innerText = 'Летчик';
+    let btn3 = document.createElement('button');
+    btn3.classList.add('btn2');
+    btn3.innerText = 'Назад';
+    btn3.onclick = game;
+    sec.append(btn);
+    sec.append(btn2);
+    sec.append(btn3);
+}
+
+function kamenschik() {
+    let sec = document.getElementById('section');
+    sec.innerHTML = '';
+    let btn = document.createElement('button');
+    btn.classList.add('button1');
+    btn.onclick = tetris;
+    btn.innerText = 'Тетрис';
+    let btn2 = document.createElement('button');
+    btn2.classList.add('button1');
+    btn2.onclick = number;
+    btn2.innerText = 'Шоу интуиция';
+    let btn3 = document.createElement('button');
+    btn3.classList.add('btn2');
+    btn3.innerText = 'Назад';
+    btn3.onclick = game;
+    sec.append(btn);
+    sec.append(btn2);
+    sec.append(btn3);
+}
+
+function tetris() {
+    let sec = document.getElementById('section');
+    sec.innerHTML = '';
+    let iframe = '<iframe src="tetris.php" height="645px" width="1100px"></iframe>';
+    let btn = '<button class="btn2" style="left: 75%" onclick="kamenschik()" >Назад</button>';
+    sec.innerHTML += iframe + btn;
+}
+
+function number() {
+    let sec = document.getElementById('section');
+    sec.innerHTML = '';
+    let div ='<iframe src="number.php" width="1000px" height="650px"></iframe>';
+    let btn = '<button class="btn2" onclick="kamenschik()" >Назад</button>';
+    sec.innerHTML += div + btn;
+}
+
+function gallows() {
+    let sec = document.getElementById('section');
+    sec.innerHTML = '';
+    let game = '<iframe src="gal.php" width="1000px" height="650px"></iframe>';
+    let btn = '<button class="btn2" onclick="gardener()" >Назад</button>';
+    sec.innerHTML += game + btn;
+}
+
+function air() {
+    let sec = document.getElementById('section');
+    sec.innerHTML = '';
+    let game = '<iframe src="let.php" width="1000px" height="750px"></iframe>';
+    let btn = '<button class="btn2" style="left: 85%" onclick="pilot()" >Назад</button>';
+    sec.innerHTML += game + btn;
+}
+
+function battle() {
+    let sec = document.getElementById('section');
+    sec.innerHTML = '';
+    let game = '<iframe src="batle.php" width="1600px" height="650px"></iframe>';
+    let btn = '<button class="btn2" style="top: 80%; left: 80%;" onclick="pilot()" >Назад</button>';
+    sec.innerHTML += game + btn;
+}
+
 var model = {
     currentCookie: null,
     cookie: [
         {
-            clickCount : 0,
+            clickCount : getCookie(),
             name : 'Cookie',
             imgSrc : 'resources/images/perfectCookie.png',
         },
@@ -285,6 +427,22 @@ var cookieView = {
         this.countElem.textContent = currentCookie.clickCount;
         this.cookieNameElem.textContent = currentCookie.name;
         this.cookieImageElem.src = currentCookie.imgSrc;
+        if(currentCookie.clickCount === 1){
+            addAchiev(4);
+        }
+        if(currentCookie.clickCount === 10){
+            addAchiev(5);
+        }
+        if(currentCookie.clickCount === 50){
+            addAchiev(6);
+        }
+        if(currentCookie.clickCount === 100){
+            addAchiev(7);
+        }
+        if(currentCookie.clickCount === 1000){
+            addAchiev(8);
+        }
+        saveCookie(currentCookie.clickCount)//todo
     }
 };
 
@@ -333,7 +491,6 @@ function cross_zero(){
     var exit_flag = false;
     var win_user_array = ['123','456','789','147','258','369','159','357'];
 
-    //Определяем победу игрока
     function check_3_user(znak){
         for (var i = 0; i < 8; i++) {
 
@@ -352,7 +509,13 @@ function cross_zero(){
                 let sec = document.getElementById('section');
                 sec.append(btn);
                 btn.onclick = game;
+                saveLocation(3);
                 clear();
+                if (xo_count < 6) {
+                    addAchiev(3);
+                }
+
+
             }
         }
     }
@@ -444,7 +607,7 @@ function cross_zero(){
     })
 }
 
-function test() {
+function test(i, count) {
     const headElem = document.getElementById("head");
     const buttonsElem = document.getElementById("buttons");
     const pagesElem = document.getElementById("pages");
@@ -589,7 +752,82 @@ function test() {
             new Answer("Actinium", 0),
             new Answer("Аstatium", 0)])];
 
-    const quiz = new Quiz(1, questions, results);
+    const results_cook = [
+        new Result("Гордона Рамзи на вас не хватет!!!", 0),
+        new Result("Для получения новых достижений, вам нужно стараться больше ", 6),
+        new Result("Вы ответили верно почти на все вопросы, продолжайте в том же духе", 8),
+        new Result("Поздравляю вы все знаете о профессии повара", 10)];
+
+    const questions_cook = [
+        new Question("Что необходимо для блинов в классическом рецепте?", [
+            new Answer("банан", 0),
+            new Answer("яйца", 1),
+            new Answer("йогурт", 0),
+            new Answer("вода", 0)]),
+
+        new Question("Что нужно для тирамису?", [
+            new Answer("водка", 0),
+            new Answer("печенье савоярди", 1),
+            new Answer("клубника", 0),
+            new Answer("чай", 0)]),
+
+        new Question("Что нужно для приготовления зефира", [
+            new Answer("огонь", 0),
+            new Answer("манная каша", 0),
+            new Answer("молоко", 0),
+            new Answer("яблочное пюре", 1)]),
+
+        new Question("А что самое главное в пасте?", [
+            new Answer("макароны", 0),
+            new Answer("мясо", 0),
+            new Answer("соус", 1),
+            new Answer("морковь", 0)]),
+
+        new Question("Что такое сюрстремминг", [
+            new Answer("вяленая горбуша", 0),
+            new Answer("квашеная селедка", 1),
+            new Answer("тухлая скумбрия", 0),
+            new Answer("жареная акула", 0)]),
+
+        new Question("Без чего плов - не плов", [
+            new Answer("перец", 0),
+            new Answer("барбарис", 0),
+            new Answer("зира", 1),
+            new Answer("мясо", 0)]),
+
+        new Question("Из чего делают оригинальный соус цезарь", [
+            new Answer("анчоусы", 1),
+            new Answer("сыр", 0),
+            new Answer("кетчунез", 0),
+            new Answer("рисовый уксус", 0)]),
+
+        new Question("Какие специи нужны для Глинтвейна", [
+            new Answer("тимьян", 0),
+            new Answer("корица", 1),
+            new Answer("розмарин", 0),
+            new Answer("бадьян", 1)]),
+
+        new Question("Из чего делают безе", [
+            new Answer("желток и белок", 0),
+            new Answer("желток", 0),
+            new Answer("белок", 1),
+            new Answer("вода", 0)]),
+
+        new Question("Какое мясо используется для приготовления котлет Пожарских", [
+            new Answer("свининка", 0),
+            new Answer("рыба", 0),
+            new Answer("говядина", 0),
+            new Answer("курица", 1)])];
+    let q;
+
+    if(i === 1){
+        q = new Quiz(1, questions, results);
+
+    } else if(i === 2){
+        q = new Quiz(1, questions_cook, results_cook);
+    }
+
+    const quiz = q;
     Update();
 
     function Update() {
@@ -622,19 +860,29 @@ function test() {
                 btn.innerHTML = 'Заново';
                 buttonsElem.appendChild(btn);
                 btn.onclick = function(){
+                    count++;
                     buttonsElem.innerHTML = "";
                     Update();
                 };
             } else {
-                let div = document.createElement('div');
-                div.id = 'end';
-
-                let btn = document.createElement("button");
-                btn.className = "btn2";
-                btn.innerHTML = 'Далее';
-                let sec = document.getElementById('section');
-                sec.append(btn);
-                btn.onclick = univer;
+                if (i === 1){
+                    let btn = document.createElement("button");
+                    btn.className = "btn2";
+                    btn.innerHTML = 'Далее';
+                    let sec = document.getElementById('section');
+                    sec.append(btn);
+                    btn.onclick = univer;
+                    if(count ==  1){
+                        addAchiev(2);
+                        //   alert("Получено достижение: Лучший Выпускник!")
+                    }
+                    saveLocation(2);
+                } else if (i === 2){
+                    if(count ==  1){
+                        addAchiev(9);
+                        //    alert("Получено достижение: Лучше учителя!")
+                    }
+                }
             }
         }
     }
@@ -681,7 +929,6 @@ function dino_game() {
     const canvas = document.getElementById('game');
     const ctx = canvas.getContext('2d');
 
-// Variables
     let score;
     let scoreText;
     let highscore;
@@ -692,7 +939,6 @@ function dino_game() {
     let gameSpeed;
     let keys = {};
 
-// Event Listeners
     document.addEventListener('keydown', function (evt) {
         keys[evt.code] = true;
     });
@@ -731,7 +977,6 @@ function dino_game() {
 
             this.y += this.dy;
 
-            // Gravity
             if (this.y + this.h < canvas.height) {
                 this.dy += gravity;
                 this.grounded = false;
@@ -841,9 +1086,12 @@ function dino_game() {
 
         player = new Player(25, 0, 50, 50, '#FF5858');
 
-        scoreText = new Text("Score: " + score, 25, 25, "left", "#212121", "20");
-        highscoreText = new Text("Highscore: " + highscore, canvas.width - 25, 25, "right", "#212121", "20");
-
+        scoreText = new Text("Скорость: " + score, 25, 25, "left", "#212121", "20");
+        highscoreText = new Text("Лучшая скорость: " + highscore, canvas.width - 25, 25, "right", "#212121", "20");
+        if (highscore > 100){addAchiev(27)}
+        if (highscore > 1000){addAchiev(28)}
+        if (highscore > 5000){addAchiev(29)}
+        if (highscore > 10000){addAchiev(30)}
         requestAnimationFrame(Update);
     }
 
@@ -864,7 +1112,6 @@ function dino_game() {
             }
         }
 
-        // Spawn Enemies
         for (let i = 0; i < obstacles.length; i++) {
             let o = obstacles[i];
 
@@ -906,77 +1153,3 @@ function dino_game() {
 
     Start();
 }
-
-function include(url) {
-    let script = document.createElement('script');
-    script.src = url;
-    document.getElementsByTagName('head')[0].append(script);
-}
-
-
-const questions_cook = [
-    new Question("Что необходимо для блинов в классическом рецепте? ", [
-        new Answer("банан", 0),
-        new Answer("яйца", 1),
-        new Answer("йогурт", 0),
-        new Answer("вода", 0)]),
-
-    new Question("Что нужно для тирамису?", [
-        new Answer("водка", 0),
-        new Answer("печенье савоярди", 1),
-        new Answer("клубника", 0),
-        new Answer("чай", 0)]),
-
-    new Question("Что нужно для приготовления зефир", [
-        new Answer("огонь", 0),
-        new Answer("манная каша", 0),
-        new Answer("молоко", 0),
-        new Answer("яблочное пюре", 1)]),
-
-    new Question("А что самое главнное в пасте?", [
-        new Answer("макароны", 0),
-        new Answer("мясо", 0),
-        new Answer("соус", 1),
-        new Answer("морковь", 0)]),
-
-    new Question("Что такое сюрстремминг", [
-        new Answer("вяленная горбуша", 0),
-        new Answer("квашенная селедка", 1),
-        new Answer("тухлая скумбрия", 0),
-        new Answer("жаренная акула", 0)]),
-
-    new Question("Без чего плов - не плов", [
-        new Answer("перец", 0),
-        new Answer("барбарис", 0),
-        new Answer("зира", 1),
-        new Answer("мясо", 0)]),
-
-    new Question("Из чего делают оригинальный соус цезарь", [
-        new Answer("анчоусы", 1),
-        new Answer("сыр", 0),
-        new Answer("кетчунез", 0),
-        new Answer("рисовый уксус", 0)]),
-
-    new Question("Какие специи нужны для Глинтвейна", [
-        new Answer("тимьян", 0),
-        new Answer("корица", 1),
-        new Answer("розмарин", 0),
-        new Answer("бадьян", 1)]),
-
-    new Question("Из чего делеют безе", [
-        new Answer("желток и белок", 0),
-        new Answer("желток", 0),
-        new Answer("белок", 1),
-        new Answer("ничего из перечисленного", 0)]),
-
-    new Question("Какое мясо используется для приготовления котлет пожарских", [
-        new Answer("свининка", 0),
-        new Answer("рыба", 0),
-        new Answer("говядина", 0),
-        new Answer("курица", 1)])];
-
-const results_cook = [
-    new Result("Гордона Рамзи на вас не хватет!!!", 0),
-    new Result("Для получения новых достижений, вам нужно стараться больше ", 6),
-    new Result("Вы ответили верно почти на все вопросы, продолжайте в том же духе", 8),
-    new Result("Поздравляю вы все знаете о профессии повара", 10)];

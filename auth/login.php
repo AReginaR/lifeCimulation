@@ -34,14 +34,14 @@ $data = $_POST;
                 setcookie('id', $user['id'], time() + 3600);
                 setcookie('role', $user['role'], time() + 3600);
             }
-            header('Location: http://localhost:63342/GameProject42/profile.php');
+            header('Location: http://localhost:63342/LifeSimulation/game.php');
             exit;
         } else {
             $_SESSION['emailErr'] = 'Неверно введен email или пароль!';
           //  header('Location: http://localhost:63342/GameProject42/login.php');
         }
     }
-    header('Location: http://localhost:63342/GameProject42/login.php');
+    header('Location: http://localhost:63342/LifeSimulation/login.php');
     exit;
 
 

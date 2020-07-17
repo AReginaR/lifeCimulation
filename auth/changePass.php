@@ -19,7 +19,7 @@ if (trim($pass) != '' && trim($newPass) != '' && trim($newPassConfirm) != ''){
         if ($newPass !== $newPassConfirm) {
 
             $_SESSION['passErr'] = 'Пароли не совпадают';// Сообщение об ощибке
-            header('Location: http://localhost:63342/GameProject42/profile.php');            //Редирект обратно
+            header('Location: http://localhost:63342/LifeSimulation/profile.php');            //Редирект обратно
         }
         $sql = "UPDATE users SET password = :password WHERE id = :id";
         $values = [
@@ -31,15 +31,15 @@ if (trim($pass) != '' && trim($newPass) != '' && trim($newPassConfirm) != ''){
         $statement->execute($values);
 
         $_SESSION['passSuccess'] = 'Пароль обновлён'; // Сообщение об успешном изменении пароля
-        header("Location: http://localhost:63342/GameProject42/profile.php");
+        header("Location: http://localhost:63342/LifeSimulation/profile.php");
         exit;
     } else{
         $_SESSION['passErr'] = 'Пароль неверный'; // Сообщение об успешном изменении пароля
-        header("Location: http://localhost:63342/GameProject42/profile.php");
+        header("Location: http://localhost:63342/LifeSimulation/profile.php");
         exit;
     }
 } else {
     $_SESSION['passErr'] = 'Поля должны быть заполнены'; // Сообщение об успешном изменении пароля
-    header("Location: http://localhost:63342/GameProject42/profile.php");
+    header("Location: http://localhost:63342/LifeSimulation/profile.php");
     exit;
 }

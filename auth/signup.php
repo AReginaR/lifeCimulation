@@ -1,7 +1,5 @@
 <?php
 require_once '../db.php';
-//require_once 'function.php';
-//require_once 'pages/login.php';
 
 $data = $_POST;
 if ( isset($data['submit']) ) {
@@ -35,33 +33,21 @@ if ( isset($data['submit']) ) {
         }
 
         if (!$errors){
-            $sql = 'INSERT INTO users (nickname, email, password, role, points, population, population_welfare) 
-                    VALUES (:nickname, :email, :password, :role, :points, :population, :population_welfare)';
+            $sql = 'INSERT INTO users (nickname, email, password, role) 
+                    VALUES (:nickname, :email, :password, :role)';
             $values = [
                 'nickname' => $nickname,
                 'email' => $email,
                 'password' => password_hash($pass, PASSWORD_DEFAULT),
                 'role' => "USER",
-                'points' => "5",
-                'population' => "5",
-                'population_welfare' => "1"
             ];
-//            $sql = 'INSERT INTO users (nickname, email, password, role)
-//                    VALUES (:nickname, :email, :password, :role)';
-//            $values = [
-//                'nickname' => $nickname,
-//                'email' => $email,
-//                'password' => password_hash($pass, PASSWORD_DEFAULT),
-//                'role' => "USER",
-//            ];
             $db = GetConnection();
             $statement = $db->prepare($sql);
             $statement->execute($values);
-            userStock($email);
-            header("Location: http://localhost:63342/GameProject42/login.php");
+            header("Location: http://localhost:63342/LifeSimulation/login.php");
             exit;
         }else {
-            header("Location: http://localhost:63342/GameProject42/signup.php");
+            header("Location: http://localhost:63342/LifeSimulation/signup.php");
         }
 
     } else {

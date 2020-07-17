@@ -24,7 +24,6 @@ if(!preg_match('#^([a-z0-9_.-]{1,20}+)@([a-z0-9_.-]+)\.([a-z\.]{2,10})$#', $emai
 $resultEmail = getUser($email);
 $resultNick = getUserByNickName($nickname);
 
-
 if ($resultEmail){
     if($resultEmail['id'] != $id) {
         $_SESSION['emailErr'] = 'Такой email уже зарегистрирован';
@@ -61,5 +60,5 @@ if (!$errors){
         setcookie('name', $nickname, time() + 3600);
     }
 }
-header("Location: http://localhost:63342/GameProject42/profile.php");
+header("Location: http://localhost:63342/LifeSimulation/profile.php");
 exit();
